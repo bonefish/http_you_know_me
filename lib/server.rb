@@ -2,6 +2,8 @@ require 'socket'
 require 'faraday'
 
 class Server
+
+  attr_reader :tcp_server, :connection
   def initialize
     @tcp_server = TCPServer.new(9292)
     @connection = nil

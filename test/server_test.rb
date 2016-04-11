@@ -3,5 +3,6 @@ require 'minitest/autorun'
 require 'minitest/pride'
 
 class ServerTest < MiniTest::Test
+  
 
 end
