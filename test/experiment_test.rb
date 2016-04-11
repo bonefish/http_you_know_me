@@ -15,10 +15,11 @@ class WebServerTest < MiniTest::Test
   def test_response
     server = WebServer.new
     server.setup_connection
-    # response = server.connection.gets("http://127.0.0.1:9292")
-    # assert response.success?
-    assert_equal "127.0.0.1", server.connection.host
-    assert_equal 9292, server.connection.port
+    server.read_request
+    # assert_equal "GET / HTTP/1.1", server.request_lines[0]
+    assert_equal "Host: localhost:9292", server.request_lines[1]
+
+
   end
 
 end
