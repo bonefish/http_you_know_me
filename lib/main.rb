@@ -22,10 +22,23 @@ class Main
     server.close_connection
   end
 
+  def hello_world(count=0)
+    while true
+      request = Request.new
+      request.read_request(connection)
+      response = Response.new
+      response.hello_world(connection, count)
+      server.close_connection
+      count +=1
+      #counting favicon requests, parse and exclude
+
+    end
+  end
+
 
 
 
 end
 
 main = Main.new
-main.experiment
+main.hello_world
