@@ -11,6 +11,7 @@ class Request
     while line = connection.gets and !line.chomp.empty?
       request_lines << line.chomp
     end
+    request_lines
   end
 
   def display_request
