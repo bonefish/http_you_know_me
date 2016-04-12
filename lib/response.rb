@@ -67,6 +67,7 @@ class Response
   end
 
 
+#change into hash; except first line, key is thing before first :
   def parse_verb(request_lines)
     request_lines[0].split(" ")[0]
   end

@@ -18,7 +18,7 @@ class Main
     request.read_request(connection)
     request.display_request
     response = Response.new
-    response.send_experiment_response(connection, request.request_lines) #response.experiment_response
+    response.send_experiment_response(connection, request.request_lines)
     server.close_connection
   end
 
