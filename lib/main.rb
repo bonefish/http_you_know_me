@@ -48,27 +48,18 @@ class Main
     while true
       request = Request.new
       request.read_request(connection)
+      request_hash = request.make_hash(request.request_lines)
+      request_path = request_hash["Path"]
       response = Response.new
-      #need to define path somwhere before below
-      #need to increment counter for hello if path is hello
-      #need to figure out how to close server
-      response.output_response_by_path(connection, path, hello_count, request_count)
+      response.output_response_by_path(connection, request_path, request_hash, hello_count, request_count)
+      hello_count += 1 if request_path == "/hello"
       request_count +=1
+      return false if request_path == "/shutdown"
     end
+    server.close_connection
   end
-
-
-
-
-
-
-
-
-
 
 end
 
 main = Main.new
-main.output_diagnostics_main
-# main.hello_world_main
-# main.experiment
+main.response_by_paths
