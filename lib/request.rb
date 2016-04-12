@@ -9,10 +9,27 @@ class Request
     puts "Ready for a request"
     @request_lines = []
     while line = connection.gets and !line.chomp.empty?
-      request_lines << line.chomp
+      @request_lines << line.chomp
     end
     request_lines
   end
+
+  def make_hash(request_lines)
+    request_hash = {}
+    request_lines.each_with_index do |line, index|
+      if index == 0
+        split_line = line.split(" ")
+        request_hash["Verb"] = split_line[0]
+        request_hash["Path"] = split_line[1]
+        request_hash["Protocol"] = split_line[2]
+      else
+        split_line = line.split(":", 2)
+        request_hash[split_line[0]] = split_line[1].lstrip
+      end
+    end
+    request_hash
+  end
+
 
   def display_request
     puts "Got this request:"
