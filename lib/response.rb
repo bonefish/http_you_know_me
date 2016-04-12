@@ -4,44 +4,46 @@ require 'faraday'
 class Response
 
   #remove, this was the experiment section of readme
-  def build_response(connection, request_lines)
-    puts "Sending response."
-    response = "<pre>" + request_lines.join("\n") + "</pre>"
-    #redesign all of these so this call doesnt happen here so i can isolate method for testing 
-    #flip this around. call build_response in send response
-    send_response(connection, response)
+  def experiment_response(request_lines)
+    "<pre>" + request_lines.join("\n") + "</pre>"
   end
 
-  #do these stay now that further iterations don't use?
-  def hello_world(connection, count)
-    response = "<pre>Hello, World!(#{count})</pre>"
-    send_response(connection, response)
+  def hello_response(count)
+    "<pre>Hello, World!(#{count})</pre>"
   end
 
-  #do these stay now that further iterations don't use?
-  def output_diagnostics(connection, request_lines)
-    response =  "<pre>Verb: #{parse_verb(request_lines)}\nPath: #{parse_path(request_lines)}\nProtocol: #{parse_protocol(request_lines)}\nHost: #{parse_host(request_lines)}\nPort: #{parse_port(request_lines)}\nOrigin: #{parse_origin(request_lines)}\nAccept: #{parse_accept(request_lines)}\n</pre>"
-    send_response(connection, response)
+  def diagnostics_response(request_lines)
+    "<pre>Verb: #{parse_verb(request_lines)}\nPath: #{parse_path(request_lines)}\nProtocol: #{parse_protocol(request_lines)}\nHost: #{parse_host(request_lines)}\nPort: #{parse_port(request_lines)}\nOrigin: #{parse_origin(request_lines)}\nAccept: #{parse_accept(request_lines)}\n</pre>"
   end
 
-  def output_response_by_path(connection, path, hello_count, request_count)
+  def send_experiment_response(connection, request_lines)
+    send_response(connection, experiment_response(request_lines))
+  end
+
+  def send_hello_response(connection, count)
+    send_response(connection, hello_response(count))
+  end
+
+  def send_diagnostic_response(connection, request_lines)
+    send_response(connection, diagnostics_response(request_lines))
+  end
+
+  def output_response_by_path(path, hello_count, request_count)
     response = id_response_by_path(path, hello_count, request_count)
-    send_response(connection, response)
   end
 
-  def id_response_by_path(path, hello_count, request_count)
+  def response_by_path(request_lines, path, hello_count, request_count)
     if path == "/"
-      response = "<pre>Verb: #{parse_verb(request_lines)}\nPath: #{parse_path(request_lines)}\nProtocol: #{parse_protocol(request_lines)}\nHost: #{parse_host(request_lines)}\nPort: #{parse_port(request_lines)}\nOrigin: #{parse_origin(request_lines)}\nAccept: #{parse_accept(request_lines)}\n</pre>"
+      diagnostics_response(request_lines)
     elsif path == "/hello"
-      response = "<pre>Hello, World!(#{hello_count})</pre>"
+      hello_response(hello_count)
     elsif path =="/datetime"
-      response = "#{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}"
+      "#{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}"
     elsif path =="/shutdown"
-      response = "Total requests: #{request_count}"
+      "Total requests: #{request_count}"
     else
       #???
     end
-    response
   end
 
 

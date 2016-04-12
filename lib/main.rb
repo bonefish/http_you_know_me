@@ -18,7 +18,7 @@ class Main
     request.read_request(connection)
     request.display_request
     response = Response.new
-    response.build_response(connection, request.request_lines)
+    response.send_experiment_response(connection, request.request_lines) #response.experiment_response
     server.close_connection
   end
 
@@ -27,7 +27,7 @@ class Main
       request = Request.new
       request.read_request(connection)
       response = Response.new
-      response.hello_world(connection, count)
+      response.send_hello_response(connection, count)
       server.close_connection #why close it? works with or without it
       count +=1
       #counting favicon requests, parse and exclude in future
@@ -40,7 +40,7 @@ class Main
     request.read_request(connection)
     request.display_request
     response = Response.new
-    response.output_diagnostics(connection, request.request_lines)
+    response.send_diagnostic_response(connection, request.request_lines)
     server.close_connection
   end
 
