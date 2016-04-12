@@ -24,11 +24,11 @@ class Response
   end
 
   def send_diagnostic_response(connection, request_lines)
-    send_response(connection, diagnostics_response(request_lines))
+    send_response(connection, diagnostic_response(request_lines))
   end
 
-  def output_response_by_path(path, hello_count, request_count)
-    response = id_response_by_path(path, hello_count, request_count)
+  def output_response_by_path(connection, path, request_hash, hello_count, request_count)
+    send_response(connection, response_by_path(path, request_hash, hello_count, request_count))
   end
 
   def response_by_path(path, request_hash, hello_count, request_count)
