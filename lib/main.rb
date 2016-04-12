@@ -50,4 +50,6 @@ class Main
 end
 
 main = Main.new
-main.output_diagnostics_main
+# main.output_diagnostics_main
+main.hello_world_main
+# main.experiment
