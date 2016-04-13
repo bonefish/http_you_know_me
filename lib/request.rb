@@ -1,5 +1,6 @@
 require 'socket'
 require 'faraday'
+require './lib/server'
 
 class Request
 
@@ -30,6 +31,17 @@ class Request
     request_hash
   end
 
+  def content_length(request_lines)
+    make_hash(request_lines)["Content-Length"].to_i
+  end
+
+  def read_body
+    connection.read(content_length)
+  end
+
+  def find_guess
+    read_body.split("=")[1].to_i
+  end
 
   def display_request
     puts "Got this request:"
