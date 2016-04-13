@@ -1,6 +1,7 @@
 require 'socket'
 require 'faraday'
 require './lib/word_search'
+require './lib/game'
 
 class Response
 
@@ -32,6 +33,7 @@ class Response
     send_response(connection, response_by_path(path, request_hash, hello_count, request_count))
   end
 
+
   def response_by_path(path, request_hash, hello_count, request_count)
     if path == "/"
       diagnostic_response(request_hash)
@@ -43,10 +45,15 @@ class Response
       "<pre>Total requests: #{request_count}</pre>"
     elsif path.include?("/word_search")
       word_search_response(extract_word(path))
+    elsif path == "/start_game"
+      "Good Luck!"
+    elsif path == "/game" && request_hash["Verb"] == "GET"
+      return
     else
       "<pre>Invalid Path</pre>"
     end
   end
+
 
   def find_path(request_hash)
     request_hash["Path"]
@@ -60,6 +67,8 @@ class Response
       "<pre>#{word.upcase} is not a known word</pre>"
     end
   end
+
+
 
   def extract_word(path)
     split = path.split("=")

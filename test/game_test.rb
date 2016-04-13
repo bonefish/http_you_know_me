@@ -47,5 +47,18 @@ class GameTest < MiniTest::Test
     assert_equal "correct", game.eval_guess(6)
   end
 
+  def test_game_response_is_correct_for_all_circumstances
+    game.num_guess = 4
+    game.correct_number = 6
+
+    too_high = "<pre>4 guesses have been taken.\nYour guess was too high.</pre>"
+    too_low = "<pre>4 guesses have been taken.\nYour guess was too low.</pre>"
+    correct = "<pre>4 guesses have been taken.\nYour guess was correct.</pre>"
+
+    assert_equal too_high, game_response(game.num_guess, game.eval_guess(8))
+    assert_equal too_low, game_response(game.num_guess, game.eval_guess(4))
+    assert_equal correct, game_response(game.num_guess, game.eval_guess(6))
+  end
+
 
 end

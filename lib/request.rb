@@ -4,7 +4,7 @@ require './lib/server'
 
 class Request
 
-  attr_reader :request_lines
+  attr_reader :request_lines, :guess, :body, :content_length
 
   def read_request(connection)
     puts "Ready for a request"
@@ -15,7 +15,7 @@ class Request
     request_lines
   end
 
-  def make_hash(request_lines)
+  def make_hash
     request_hash = {}
     request_lines.each_with_index do |line, index|
       if index == 0
@@ -31,17 +31,23 @@ class Request
     request_hash
   end
 
-  def content_length(request_lines)
-    make_hash(request_lines)["Content-Length"].to_i
+  def content_length
+    make_hash["Content-Length"].to_i
   end
 
-  def read_body
-    connection.read(content_length)
+  def read_body(connection)
+    @body = connection.read(content_length)
   end
 
   def find_guess
-    read_body.split("=")[1].to_i
+    if body
+      @guess = body.split("=")[1].to_i
+    else
+      @guess = 0 #could be nil?
+    end
   end
+
+
 
   def display_request
     puts "Got this request:"
