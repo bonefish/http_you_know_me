@@ -51,4 +51,40 @@ class ResponseTest < MiniTest::Test
     assert_equal expected, response.response_by_path("/shutdown", request_hash, 3, 12)
   end
 
+  def test_response_to_empty_word_search_is_correct
+    path = "/word_search"
+    expected = "<pre> is not a known word</pre>"
+    assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
+  end
+
+  def test_response_to_real_word_search_is_correct
+    path = "/word_search?word=fancy"
+    expected = "<pre>FANCY is a known word</pre>"
+    assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
+  end
+
+  def test_response_to_bad_word_search_is_correct
+    path = "/word_search?word=fanc"
+    expected = "<pre>FANC is not a known word</pre>"
+    assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
+  end
+
+  def test_it_extracts_word_from_params
+    path = "/word_search?word=dog"
+    assert_equal "dog", response.extract_word(path)
+  end
+
+  def test_it_sends_known_word_response_to_valid
+    word = "pizza"
+    expected = "<pre>#{word.upcase} is a known word</pre>"
+    assert_equal expected, response.word_search_response(word)
+  end
+
+  def test_it_sends_unknown_word_response_to_invalid
+    word = "piz"
+    expected = "<pre>#{word.upcase} is not a known word</pre>"
+    assert_equal expected, response.word_search_response(word)
+  end
+
+
 end

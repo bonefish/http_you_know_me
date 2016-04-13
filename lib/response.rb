@@ -1,5 +1,6 @@
 require 'socket'
 require 'faraday'
+require './lib/word_search'
 
 class Response
 
@@ -40,6 +41,8 @@ class Response
       "<pre>#{Time.now.strftime('%l:%M%p on %A, %B %e, %Y ')}</pre>"
     elsif path == "/shutdown"
       "<pre>Total requests: #{request_count}</pre>"
+    elsif path.include?("/word_search")
+      word_search_response(extract_word(path))
     else
       "<pre>Invalid Path</pre>"
     end
@@ -48,6 +51,25 @@ class Response
   def find_path(request_hash)
     request_hash["Path"]
   end
+
+  def word_search_response(word)
+    word_search = WordSearch.new
+    if word_search.valid_word?(word)
+      "<pre>#{word.upcase} is a known word</pre>"
+    else
+      "<pre>#{word.upcase} is not a known word</pre>"
+    end
+  end
+
+  def extract_word(path)
+    split = path.split("=")
+    if split[1]
+      word = split[1]
+    else
+      word = ""
+    end
+  end
+
 
   def send_response(connection, response)
     connection.puts headers(output(response))
