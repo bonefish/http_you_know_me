@@ -50,8 +50,8 @@ class Main
 
       request = Request.new
 
-      request.read_request(connection)
-      request_hash = request.make_hash
+      request_lines = request.read_request(connection)
+      request_hash = request.make_hash(request_lines)
       request_path = request_hash["Path"]
       request_type = request_hash["Verb"]
 
@@ -62,8 +62,8 @@ class Main
       response = Response.new
 
       if request_type == "POST"
-        request.content_length
-        request.read_body(connection)
+        request.content_length(request_hash)
+        request.read_body(connection, request_hash)
         guess = request.find_guess
         game.eval_guess(guess)
         game.record_guess

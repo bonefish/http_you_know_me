@@ -61,8 +61,8 @@ class RequestTest < MiniTest::Test
     assert_equal "<html><head></head><body>#{response}</body></html>", res.body
   end
 
-    def test_finds_content_length
-      assert_equal 32, request.content_length(request_lines)
+    def test_finds_content_length 
+      assert_equal 32, request.content_length(request.make_hash(request_lines))
     end
 
 
