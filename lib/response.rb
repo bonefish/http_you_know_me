@@ -1,4 +1,4 @@
-require 'socket'
+# require 'socket'
 require './lib/word_search'
 require './lib/game'
 require 'pry'
