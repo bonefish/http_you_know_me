@@ -29,7 +29,7 @@ class Response
     send_response(connection, diagnostic_response(request_lines))
   end
 
-  def output_response_by_path(connection, path, request_hash, hello_count, request_count)
+  def send_response_by_path(connection, path, request_hash, hello_count, request_count)
     send_response(connection, response_by_path(path, request_hash, hello_count, request_count))
   end
 

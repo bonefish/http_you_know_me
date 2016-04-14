@@ -42,7 +42,7 @@ class Main
         game.send_game_response(connection, game.game_response)
 
       else
-        response.output_response_by_path(connection, request_path, request_hash, hello_count, request_count)
+        response.send_response_by_path(connection, request_path, request_hash, hello_count, request_count)
       end
 
       hello_count += 1 if request_path == "/hello"

@@ -69,33 +69,6 @@ class ResponseTest < MiniTest::Test
     assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
   end
 
-  # def test_response_to_high_guess__is_correct
-  #   game = Game.new
-  #   game.num_guess = 4
-  #   game.correct_number = 6
-  #   path = "/game"
-  #   expected = "<pre>4 guesses have been taken.\nYour guess was too high.</pre>"
-  #   assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
-  # end
-  #
-  # def test_response_to_low_guess__is_correct
-  #   game = Game.new
-  #   game.num_guess = 4
-  #   game.correct_number = 6
-  #   path = "/game"
-  #   expected = "<pre>4 guesses have been taken.\nYour guess was too low.</pre>"
-  #   assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
-  # end
-  #
-  # def test_response_to_correct_guess__is_correct
-  #   game = Game.new
-  #   game.num_guess = 4
-  #   game.correct_number = 6
-  #   path = "/game"
-  #   expected = "<pre>4 guesses have been taken.\nYour guess was correct.</pre>"
-  #   assert_equal expected, response.response_by_path(path, request_hash, 3, 0)
-  # end
-
   def test_it_extracts_word_from_params
     path = "/word_search?word=dog"
     assert_equal "dog", response.extract_word(path)

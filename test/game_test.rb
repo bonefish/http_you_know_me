@@ -64,11 +64,12 @@ class GameTest < MiniTest::Test
 
   def test_game_response_is_correct_for_all_circumstances
     game.num_guess = 4
+    game.last_guess = 2
     game.guess_eval = "too_high"
 
-    expected_too_high =  "<pre>4 guesses have been taken.\nYour guess was too high.</pre>"
-    expected_too_low = "<pre>4 guesses have been taken.\nYour guess was too low.</pre>"
-    expected_correct = "<pre>4 guesses have been taken.\nYour guess was correct.</pre>"
+    expected_too_high =  "<pre>4 guesses have been taken.\nYour guess was 2.  Your guess was too high.</pre>"
+    expected_too_low = "<pre>4 guesses have been taken.\nYour guess was 2.  Your guess was too low.</pre>"
+    expected_correct = "<pre>4 guesses have been taken.\nYour guess was 2.  Your guess was correct.</pre>"
 
     game.guess_eval = "too low"
 

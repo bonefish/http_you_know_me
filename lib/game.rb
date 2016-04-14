@@ -2,17 +2,17 @@ require "./lib/request"
 
 class Game
 
-  attr_accessor :num_guess, :game_in_progress, :correct_number, :guess_eval
+  attr_accessor :num_guess, :game_in_progress, :correct_number, :guess_eval, :last_guess
 
   def initialize
     @num_guess = 0
     @game_in_progress = true #remember to change tests
-    @correct_number = rand(1..100)
+    @correct_number = rand(1..3)
     @guess_eval = ""
   end
 
   def end_game
-    game_in_progress = false
+    @game_in_progress = false
   end
 
   def record_guess
@@ -26,11 +26,14 @@ class Game
       @guess_eval = "too high"
     else
       @guess_eval = "correct"
+      end_game
     end
+    @last_guess = guess
+    return @guess_eval
   end
 
   def game_response
-    "<pre>#{num_guess} guesses have been taken.\nYour guess was #{@guess_eval}.</pre>"
+    "<pre>#{num_guess} guesses have been taken.\nYour guess was #{last_guess}.  Your guess was #{@guess_eval}.</pre>"
   end
 
   def send_game_response(connection, game_response)
@@ -61,7 +64,6 @@ class Game
       "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
       "server: ruby",
       "content-type: text/html; charset=iso-8859-1", "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-
   end
 
 end
