@@ -5,6 +5,8 @@ require 'faraday'
 
 class MainTest < MiniTest::Test
 
+##don't work;hang open forever; and/or getting pipe error
+
   def test_status_response_sample
     response = Faraday.get('http://127.0.0.1:9292')
     assert_equal 200, response.status
