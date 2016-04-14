@@ -7,7 +7,6 @@ class Request
   attr_reader :request_lines, :guess, :body, :content_length, :request_hash
 
   def read_request(connection)
-    puts "Ready for a request"
     @request_lines = []
     while line = connection.gets and !line.chomp.empty?
       @request_lines << line.chomp
@@ -41,8 +40,7 @@ class Request
 
   def find_guess
     if @body
-      p @body
-      p @guess = body.split(":")[1].to_i
+      @guess = body.split(":")[1].to_i
     else
       @guess = 0 #could be nil?
     end

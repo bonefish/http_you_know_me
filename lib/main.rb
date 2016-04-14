@@ -51,7 +51,7 @@ class Main
 
       hello_count += 1 if request_path == "/hello"
 
-      request_count +=1
+      request_count += 1
 
       return if request_path == "/shutdown"
 

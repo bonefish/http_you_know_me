@@ -6,7 +6,7 @@ class Game
 
   def initialize
     @num_guess = 0
-    @game_in_progress = true #remember to change tests
+    @game_in_progress = true
     @correct_number = rand(1..3)
     @guess_eval = ""
   end
@@ -19,7 +19,7 @@ class Game
     @num_guess += 1
   end
 
-  def eval_guess(guess)
+  def eval_guess(guess) #doing a few different things
     if guess < correct_number
       @guess_eval = "too low"
     elsif guess > correct_number
