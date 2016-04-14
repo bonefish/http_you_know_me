@@ -41,8 +41,8 @@ class Game
     connection.puts output(game_response)
   end
 
-  def send_redirect_response(connection)
-    connection.puts redirect_headers(output(""))
+  def send_redirect_response(connection, type, path)
+    connection.puts redirect_headers(output(""), type, path)
     connection.puts output("")
   end
 
@@ -58,9 +58,9 @@ class Game
       "content-length: #{output.length}\r\n\r\n"].join("\r\n")
   end
 
-  def redirect_headers(output)
-    ["http/1.1 302 Moved Temporarily",
-      "Location: http://127.0.0.1:9292/game",
+  def redirect_headers(output, type, path)
+    ["http/1.1 #{type}",
+      "Location: http://127.0.0.1:9292/#{path}",
       "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
       "server: ruby",
       "content-type: text/html; charset=iso-8859-1", "content-length: #{output.length}\r\n\r\n"].join("\r\n")
