@@ -41,20 +41,11 @@ class Request
 
   def find_guess
     if @body
-      puts "have a body"
       p @body
-      @guess = body.split(":")[1].to_i
-      p @guess
+      p @guess = body.split(":")[1].to_i
     else
       @guess = 0 #could be nil?
     end
-  end
-
-
-
-  def display_request
-    puts "Got this request:"
-    puts request_lines.inspect
   end
 
 end
