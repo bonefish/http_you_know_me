@@ -10,7 +10,6 @@ class ResponseTest < MiniTest::Test
     @request_lines = ["GET / HTTP/1.1", "Host: 127.0.0.1:9292", "Connection: keep-alive", "Cache-Control: no-cache", "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36", "Postman-Token: caad7182-899e-751e-acc0-dab87a96eca0", "Accept: */*", "Accept-Encoding: gzip, deflate, sdch", "Accept-Language: en-US,en;q=0.8"]
 
     @request_hash = {"Verb" => "GET", "Path" => "/", "Protocol" => "HTTP/1.1", "Host" => "127.0.0.1:9292"}
-      # , "Connection"=> "keep-alive", "Cache-Control:" => "no-cache", "User-Agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36", "Postman-Token" => "caad7182-899e-751e-acc0-dab87a96eca0"}
 
     @response = Response.new
   end
@@ -85,6 +84,8 @@ class ResponseTest < MiniTest::Test
     expected = "<pre>#{word.upcase} is not a known word</pre>"
     assert_equal expected, response.word_search_response(word)
   end
+
+
 
 
 end
