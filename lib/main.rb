@@ -1,21 +1,31 @@
 require 'socket'
 require 'faraday'
+require 'pry'
 require './lib/server.rb'
 require './lib/request.rb'
 require './lib/response.rb'
 
 class Main
 
-  attr_reader :server, :connection
+  attr_reader  :tcp_server, :connection
 
   def initialize
-    @server = Server.new
-    @connection = server.setup_connection
+    @tcp_server = TCPServer.new(9292)
+    @connection = nil
+  end
+
+  def setup_connection
+    @connection = tcp_server.accept
+  end
+
+  def close_connection
+    @connection.close
   end
 
   def response_by_paths(hello_count=0, request_count=0)
 
     while true
+      setup_connection
 
       request = Request.new
 
@@ -52,7 +62,7 @@ class Main
       hello_count += 1 if request_path == "/hello"
 
       request_count += 1
-
+      close_connection
       return if request_path == "/shutdown"
 
     end

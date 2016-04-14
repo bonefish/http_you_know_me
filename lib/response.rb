@@ -2,6 +2,7 @@ require 'socket'
 require 'faraday'
 require './lib/word_search'
 require './lib/game'
+require 'pry'
 
 class Response
 
@@ -45,6 +46,7 @@ class Response
   end
 
   def send_response_by_path(connection, path, request_hash, hello_count, request_count)
+    # binding.pry
     send_response(connection, response_by_path(path, request_hash, hello_count, request_count))
   end
 
@@ -58,8 +60,11 @@ class Response
   end
 
   def send_response(connection, response)
-    connection.puts headers(output(response))
-    connection.puts output(response)
+    output = output(response)
+    connection.puts headers(output)
+    connection.puts output
+    puts headers(output)
+    puts output
   end
 
   def output(response)

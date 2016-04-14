@@ -1,4 +1,4 @@
-require './lib/main.rb'
+# require './lib/main.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'faraday'
@@ -16,5 +16,10 @@ class MainTest < MiniTest::Test
     response = Faraday.get('http://127.0.0.1:9292')
     assert response.body.include?("Path")
   end
+
+
+
+    # As for the broken pipe, that error occurs because the browser forcefully breaks the connection off while read is trying to access data.
+    #  http://stackoverflow.com/questions/7540064/simple-http-server-in-ruby-using-tcpserver
 
 end
