@@ -43,6 +43,7 @@ class MainTest < MiniTest::Test
   end
 
   def test_response_to_game_is_correct
+    response = Faraday.post('http://127.0.0.1:9292/start_game')
     response = Faraday.post('http://127.0.0.1:9292/game',{:guess => 6})
     refute_equal 200, response.status
     assert_equal 301, response.status

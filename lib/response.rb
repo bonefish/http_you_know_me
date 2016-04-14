@@ -1,5 +1,4 @@
 require 'socket'
-require 'faraday'
 require './lib/word_search'
 require './lib/game'
 require 'pry'
@@ -63,8 +62,8 @@ class Response
     output = output(response)
     connection.puts headers(output)
     connection.puts output
-    puts headers(output)
-    puts output
+    # puts headers(output)
+    # puts output
   end
 
   def output(response)

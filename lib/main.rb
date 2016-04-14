@@ -6,25 +6,16 @@ require './lib/response.rb'
 
 class Main
 
-  attr_reader  :tcp_server, :connection
+  attr_reader :server
 
   def initialize
-    @tcp_server = TCPServer.new(9292)
-    @connection = nil
-  end
-
-  def setup_connection
-    @connection = tcp_server.accept
-  end
-
-  def close_connection
-    @connection.close
+    @server = Server.new(9292)
   end
 
   def response_by_paths(hello_count=0, request_count=0)
 
     while true
-      setup_connection
+      connection = server.wait_for_connection
 
       request = Request.new
 
@@ -61,7 +52,7 @@ class Main
       hello_count += 1 if request_path == "/hello"
 
       request_count += 1
-      close_connection
+      server.close_connection
       return if request_path == "/shutdown"
 
     end

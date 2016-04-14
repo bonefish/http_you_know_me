@@ -1,10 +1,9 @@
 require 'socket'
-require 'faraday'
 require './lib/server'
 
 class Request
 
-  attr_reader :request_lines, :guess, :body, :content_length, :request_hash
+  attr_reader :request_lines, :guess, :body, :request_hash
 
   def read_request(connection)
     @request_lines = []
