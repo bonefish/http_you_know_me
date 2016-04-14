@@ -1,7 +1,7 @@
 require './lib/server.rb'
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'net/ping'
+# require 'net/ping'
 
 class ServerTest < MiniTest::Test
 

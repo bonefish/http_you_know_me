@@ -40,7 +40,7 @@ class Request
 
   def find_guess
     if @body
-      @guess = body.split(":")[1].to_i
+      @guess = body.split("=")[1].to_i
     else
       @guess = 0 #could be nil?
     end
