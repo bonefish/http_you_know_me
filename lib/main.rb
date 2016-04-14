@@ -45,12 +45,15 @@ class Main
   end
 
   def response_by_paths(hello_count=0, request_count=0)
+
     while true
 
       request = Request.new
+
       request.read_request(connection)
       request_hash = request.make_hash
       request_path = request_hash["Path"]
+      request_type = request_hash["Verb"]
 
       if request_path == "/start_game"
         game= Game.new
@@ -58,27 +61,29 @@ class Main
 
       response = Response.new
 
-      if request_hash["Verb"] == "POST"
+      if request_type == "POST"
         request.content_length
         request.read_body(connection)
-        game.send_redirect_response(connection)
-      end
-
-      response.output_response_by_path(connection, request_path, request_hash, hello_count, request_count)
-
-
-
-      if request_path == "/game" && request_hash["Verb"] == "GET"
         guess = request.find_guess
-        game_response = game.game_response(game.num_guess, game.eval_guess(guess))
-        game.send_game_response(connection, game_response)
+        game.eval_guess(guess)
+        game.record_guess
+        game.send_redirect_response(connection)
+
+      elsif request_path == "/game" && request_hash["Verb"] == "GET"
+        game.send_game_response(connection, game.game_response)
+
+      else
+        response.output_response_by_path(connection, request_path, request_hash, hello_count, request_count)
       end
 
       hello_count += 1 if request_path == "/hello"
+
       request_count +=1
-      return false if request_path == "/shutdown"
+
+      return if request_path == "/shutdown"
+
     end
-    server.close_connection
+
   end
 
 end

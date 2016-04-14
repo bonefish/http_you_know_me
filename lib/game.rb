@@ -2,40 +2,35 @@ require "./lib/request"
 
 class Game
 
-  attr_accessor :num_guess, :game_in_progress, :correct_number
+  attr_accessor :num_guess, :game_in_progress, :correct_number, :guess_eval
 
   def initialize
     @num_guess = 0
     @game_in_progress = true #remember to change tests
     @correct_number = rand(1..100)
+    @guess_eval = ""
   end
-
-  # def start_game
-  #   game_in_progress = true
-  # end
 
   def end_game
     game_in_progress = false
   end
 
-
-
   def record_guess
-    num_guess += 1
+    @num_guess += 1
   end
 
   def eval_guess(guess)
     if guess < correct_number
-      "too low"
+      @guess_eval = "too low"
     elsif guess > correct_number
-      "too high"
+      @guess_eval = "too high"
     else
-      "correct"
+      @guess_eval = "correct"
     end
   end
 
-  def game_response(num_guess, guess_eval) #guess
-    "<pre>#{num_guess} guesses have been taken.\nYour guess was #{guess_eval}.</pre>"
+  def game_response
+    "<pre>#{num_guess} guesses have been taken.\nYour guess was #{@guess_eval}.</pre>"
   end
 
   def send_game_response(connection, game_response)

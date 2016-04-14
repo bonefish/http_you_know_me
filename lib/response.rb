@@ -33,30 +33,26 @@ class Response
     send_response(connection, response_by_path(path, request_hash, hello_count, request_count))
   end
 
-
   def response_by_path(path, request_hash, hello_count, request_count)
-    if path == "/"
-      diagnostic_response(request_hash)
-    elsif path == "/hello"
-      hello_response(hello_count)
-    elsif path == "/datetime"
-      "<pre>#{Time.now.strftime('%l:%M%p on %A, %B %e, %Y ')}</pre>"
-    elsif path == "/shutdown"
-      "<pre>Total requests: #{request_count}</pre>"
-    elsif path.include?("/word_search")
-      word_search_response(extract_word(path))
-    elsif path == "/start_game"
-      "Good Luck!"
-    elsif path == "/game" && request_hash["Verb"] == "GET"
-      return
-    else
-      "<pre>Invalid Path</pre>"
+    if request_hash["Verb"] == "GET"
+      if path == "/"
+        diagnostic_response(request_hash)
+      elsif path == "/hello"
+        hello_response(hello_count)
+      elsif path == "/datetime"
+        "<pre>#{Time.now.strftime('%l:%M%p on %A, %B %e, %Y ')}</pre>"
+      elsif path == "/shutdown"
+        "<pre>Total requests: #{request_count}</pre>"
+      elsif path && path.include?("/word_search")
+        word_search_response(extract_word(path))
+      elsif path == "/start_game"
+        "Good Luck!"
+      elsif path == "/game"
+        return
+      else
+        "<pre>Invalid Path</pre>"
+      end
     end
-  end
-
-
-  def find_path(request_hash)
-    request_hash["Path"]
   end
 
   def word_search_response(word)
@@ -68,8 +64,6 @@ class Response
     end
   end
 
-
-
   def extract_word(path)
     split = path.split("=")
     if split[1]
@@ -78,7 +72,6 @@ class Response
       word = ""
     end
   end
-
 
   def send_response(connection, response)
     connection.puts headers(output(response))
