@@ -37,6 +37,9 @@ class MainTest < MiniTest::Test
     refute_equal 200, response.status
     assert_equal 301, response.status
     assert_equal response.headers["location"], "http://127.0.0.1:9292/start_game"
+    redirect_response = Faraday.get(response.headers["location"])
+    assert_equal 200, redirect_response.status
+    assert redirect_response.body.include?("Good Luck!")
   end
 
   def test_response_to_game_is_correct

@@ -1,5 +1,4 @@
 require 'socket'
-require 'faraday'
 require 'pry'
 require './lib/server.rb'
 require './lib/request.rb'
